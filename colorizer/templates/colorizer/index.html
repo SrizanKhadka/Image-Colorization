@@ -1,0 +1,67 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Image Colorization Studio</title>
+  <link rel="stylesheet" href="{% static 'colorizer/css/styles.css' %}">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="workspace">
+      <div class="panel upload-panel">
+        <div>
+          <p class="eyebrow">Django + Keras</p>
+          <h1>Image Colorization Studio</h1>
+          <p class="intro">Upload a grayscale JPG or PNG, run your trained model, and compare the original with the generated color image.</p>
+        </div>
+
+        <form id="colorize-form" class="upload-form" enctype="multipart/form-data">
+          {% csrf_token %}
+          <label id="drop-zone" class="drop-zone" for="image-input">
+            <input id="image-input" name="image" type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+            <span class="drop-icon">+</span>
+            <strong>Drop image here or browse</strong>
+            <small>JPG, JPEG, PNG up to 8 MB</small>
+          </label>
+
+          <div id="status" class="status" role="status" aria-live="polite"></div>
+
+          <div class="actions">
+            <button id="colorize-button" class="primary-button" type="submit" disabled>Colorize image</button>
+            <a id="download-link" class="secondary-button disabled" href="#" download>Download output</a>
+          </div>
+        </form>
+      </div>
+
+      <div class="comparison">
+        <article class="image-card">
+          <div class="image-card-header">
+            <h2>Uploaded</h2>
+            <span id="file-name">No file selected</span>
+          </div>
+          <div class="image-frame">
+            <img id="preview-image" alt="Uploaded preview">
+            <p class="placeholder">Your source image will appear here.</p>
+          </div>
+        </article>
+
+        <article class="image-card">
+          <div class="image-card-header">
+            <h2>Colorized</h2>
+            <span id="result-state">Waiting</span>
+          </div>
+          <div class="image-frame">
+            <div id="loader" class="loader" hidden></div>
+            <img id="result-image" alt="Colorized result">
+            <p class="placeholder">The model output will appear here.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="{% static 'colorizer/js/app.js' %}"></script>
+</body>
+</html>
